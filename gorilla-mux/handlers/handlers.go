@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/go-swagno/examples/fiber/models"
+	"github.com/go-swagno/examples/net-http/models"
 	. "github.com/go-swagno/swagno"
 	"github.com/go-swagno/swagno-http/swagger"
 	"github.com/gorilla/mux"
