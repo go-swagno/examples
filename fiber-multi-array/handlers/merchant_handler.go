@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/go-swagno/examples/fiber/models"
+	"github.com/go-swagno/examples/fiber-multi-array/models"
 	. "github.com/go-swagno/swagno"
 	"github.com/gofiber/fiber/v2"
 )

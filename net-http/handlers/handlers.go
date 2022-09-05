@@ -4,10 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/go-swagno/examples/gorilla-mux/models"
+	"github.com/go-swagno/examples/net-http/models"
 	. "github.com/go-swagno/swagno"
 	"github.com/go-swagno/swagno-http/swagger"
-	"github.com/gorilla/mux"
 )
 
 type Handler struct {
@@ -17,13 +16,13 @@ func NewHandler() Handler {
 	return Handler{}
 }
 
-func (h Handler) SetRoutes(r *mux.Router) {
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+func (h Handler) SetRoutes(m *http.ServeMux) {
+	m.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello World")
 	})
 }
 
-func (h *Handler) SetSwagger(r *mux.Router) {
+func (h *Handler) SetSwagger(m *http.ServeMux) {
 	endpoints := []Endpoint{
 		EndPoint(GET, "/product", "product", Params(), nil, []models.Product{}, models.ErrorResponse{}, "Get all products", nil),
 		EndPoint(GET, "/product", "product", Params(IntParam("id", true, "")), nil, models.Product{}, models.ErrorResponse{}, "", nil),
@@ -83,5 +82,5 @@ func (h *Handler) SetSwagger(r *mux.Router) {
 	// if you want to export your swagger definition to a file
 	// sw.ExportSwaggerDocs("api/swagger/doc.json") // optional
 
-	r.PathPrefix("/swagger").Handler(swagger.SwaggerHandler(sw.GenerateDocs()))
+	m.Handle("/swagger/", swagger.SwaggerHandler(sw.GenerateDocs()))
 }
