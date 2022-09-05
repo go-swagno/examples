@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
+	"github.com/go-swagno/examples/fiber-multi-array/handlers"
 	swagno "github.com/go-swagno/swagno"
 	"github.com/go-swagno/swagno-fiber/swagger"
-	"github.com/go-swagno/swagno/example/fiber-multi-array/handlers"
 	"github.com/gofiber/fiber/v2"
 )
 

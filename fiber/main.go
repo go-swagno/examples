@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/go-swagno/swagno/example/fiber/handlers"
+	"github.com/go-swagno/examples/fiber/handlers"
 	"github.com/gofiber/fiber/v2"
 )
 

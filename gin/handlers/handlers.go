@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-swagno/examples/gin/models"
 	. "github.com/go-swagno/swagno"
 	"github.com/go-swagno/swagno-gin/swagger"
-	"github.com/go-swagno/swagno/example/gin/models"
 )
 
 type Handler struct {
