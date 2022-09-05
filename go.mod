@@ -7,7 +7,9 @@ require (
 	github.com/go-swagno/swagno v0.3.1
 	github.com/go-swagno/swagno-fiber v0.1.4
 	github.com/go-swagno/swagno-gin v0.1.3
+	github.com/go-swagno/swagno-http v0.0.0-20220905171621-9bc3deab9697
 	github.com/gofiber/fiber/v2 v2.37.0
+	github.com/gorilla/mux v1.8.0
 )
 
 require (
