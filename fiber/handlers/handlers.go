@@ -3,8 +3,9 @@ package handlers
 import (
 	"github.com/go-swagno/examples/fiber/models"
 	. "github.com/go-swagno/swagno"
-	"github.com/go-swagno/swagno-fiber/swagger"
+	swaggerUi "github.com/go-swagno/swagno-files"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
 )
 
 type Handler struct {
@@ -15,7 +16,7 @@ func NewHandler() Handler {
 }
 
 func (h Handler) SetRoutes(a *fiber.App) {
-	a.Get("/", func(c *fiber.Ctx) error {
+	a.Get("/hello", func(c *fiber.Ctx) error {
 		return c.Status(200).SendString("Hello World!")
 	}).Name("index")
 }
@@ -78,7 +79,34 @@ func (h *Handler) SetSwagger(a *fiber.App) {
 	sw.Tags = append(sw.Tags, SwaggerTag{Name: "headerparams", Description: "headerparams operations"})
 
 	// if you want to export your swagger definition to a file
-	// sw.ExportSwaggerDocs("api/swagger/doc.json") // optional
+	swaggerDocs := string(sw.GenerateDocs())
+	a.Use("/swagger/doc.json", func(c *fiber.Ctx) error {
+		return c.SendString(swaggerDocs)
+	})
 
-	swagger.SwaggerHandler(a, sw.GenerateDocs(), swagger.Config{Prefix: "/swagger"})
+	SwaggerHandler(a, sw.GenerateDocs())
+}
+
+var swaggerDoc string
+
+func SwaggerHandler(a *fiber.App, doc []byte) {
+	if swaggerDoc == "" {
+		swaggerDoc = string(doc)
+	}
+
+	// Redirect /swagger to the correct Swagger UI index page
+	a.Get("/swagger", func(c *fiber.Ctx) error {
+		return c.Redirect("/swagger/index.html?url=/swagger/doc.json", fiber.StatusSeeOther)
+	})
+
+	// Serve the Swagger JSON at /swagger/doc.json
+	a.Get("/swagger/doc.json", func(c *fiber.Ctx) error {
+		return c.SendString(swaggerDoc)
+	})
+
+	// Serve the Swagger UI assets under /swagger
+	a.Use("/swagger", filesystem.New(filesystem.Config{
+		Root:       swaggerUi.HTTP,
+		PathPrefix: "", // Ensure this is empty
+	}))
 }
